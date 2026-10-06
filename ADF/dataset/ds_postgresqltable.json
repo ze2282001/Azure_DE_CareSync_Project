@@ -1,0 +1,12 @@
+{
+	"name": "ds_postgresqltable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_neon_postgresql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "PostgreSqlV2Table",
+		"schema": []
+	}
+}
