@@ -1,0 +1,80 @@
+{
+	"name": "ds_azuresqltable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azuresqldatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "table_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "source_system",
+				"type": "varchar"
+			},
+			{
+				"name": "source_schema_name",
+				"type": "varchar"
+			},
+			{
+				"name": "source_table_name",
+				"type": "varchar"
+			},
+			{
+				"name": "source_file_format",
+				"type": "varchar"
+			},
+			{
+				"name": "source_path",
+				"type": "varchar"
+			},
+			{
+				"name": "bronze_table_name",
+				"type": "varchar"
+			},
+			{
+				"name": "silver_table_name",
+				"type": "varchar"
+			},
+			{
+				"name": "gold_table_name",
+				"type": "varchar"
+			},
+			{
+				"name": "load_type",
+				"type": "varchar"
+			},
+			{
+				"name": "watermark_column",
+				"type": "varchar"
+			},
+			{
+				"name": "merge_keys",
+				"type": "varchar"
+			},
+			{
+				"name": "stage",
+				"type": "varchar"
+			},
+			{
+				"name": "is_active",
+				"type": "bit"
+			},
+			{
+				"name": "created_timestamp",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "updated_timestamp",
+				"type": "datetime2",
+				"scale": 7
+			}
+		]
+	}
+}
