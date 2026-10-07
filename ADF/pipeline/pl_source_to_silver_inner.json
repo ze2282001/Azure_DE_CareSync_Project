@@ -16,12 +16,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "PostgreSqlV2Source",
-						"query": "SELECT * FROM PUBLIC.hospitals",
-						"queryTimeout": "02:00:00"
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "ds_postgresqltable",
+						"referenceName": "ds_azuresqltable",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
