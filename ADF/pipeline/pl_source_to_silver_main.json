@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Fetch the list of all the tables from Azure SQL DB",
+				"name": "Read Source Table List",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -18,7 +18,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT * FROM ctrl.table_config WHERE is_active = 1 AND source_system = '@{pipeline().parameters.source_system_param}'",
+							"value": "SELECT table_id FROM ctrl.table_config WHERE is_active = 1 AND source_system = '@{pipeline().parameters.source_system_param}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -30,12 +30,55 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "Ingest All The Tables",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Read Source Table List",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Read Source Table List').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "table_id",
+								"value": {
+									"value": "@item()",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
 			}
 		],
 		"parameters": {
 			"source_system_param": {
 				"type": "string",
 				"defaultValue": "neon_postgres"
+			}
+		},
+		"variables": {
+			"table_id": {
+				"type": "String"
 			}
 		},
 		"annotations": []
