@@ -76,7 +76,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "PostgreSqlV2Source",
-						"query": "SELECT * FROM PUBLIC.hospitals",
+						"query": {
+							"value": "SELECT * FROM PUBLIC.@{activity('Read Table Details').output.firstRow.source_table_name}",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
