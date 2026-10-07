@@ -1,0 +1,23 @@
+{
+	"name": "ls_azuresqldatabase",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "vk-server-caresync.database.windows.net",
+			"database": "vk-sql-db-caresync",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "vk-admin",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_azure_key_vault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "vk-azure-sql-db"
+			}
+		}
+	}
+}
