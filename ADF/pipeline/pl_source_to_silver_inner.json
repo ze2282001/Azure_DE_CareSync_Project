@@ -198,12 +198,52 @@
 					"referenceName": "ls_azure_databricks",
 					"type": "LinkedServiceReference"
 				}
+			},
+			{
+				"name": "Update Success Status",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "2_Bronze_To_Silver",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "ls_azuresqldatabase",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "UPDATE ctrl.audit_log\nSET\n    STATUS = 'SUCCESS',\n    end_time = SYSUTCDATETIME(),\n    records_written = @{activity('2_Bronze_To_Silver').output.runOutput}\nWHERE\n    adf_run_id = '@{pipeline().parameters.adf_run_id}'\nAND\n    table_id = @{pipeline().parameters.table_id};",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
 			}
 		],
 		"parameters": {
 			"table_id": {
 				"type": "string",
 				"defaultValue": "1"
+			},
+			"adf_run_id": {
+				"type": "string",
+				"defaultValue": "a1"
 			}
 		},
 		"variables": {
