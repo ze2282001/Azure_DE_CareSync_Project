@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "vk-adf-caresync"
+		},
+		"ls_adls_properties_typeProperties_url": {
+			"value": "https://vkcaresyncproject.dfs.core.windows.net/"
+		},
+		"ls_azure_databricks_properties_typeProperties_existingClusterId": {
+			"value": "1009-040454-5y8eeisb"
+		},
+		"ls_azure_key_vault_properties_typeProperties_baseUrl": {
+			"value": "https://vk-carsync-keyvault.vault.azure.net/"
+		},
+		"ls_azuresqldatabase_properties_typeProperties_server": {
+			"value": "vk-server-caresync.database.windows.net"
+		},
+		"ls_azuresqldatabase_properties_typeProperties_database": {
+			"value": "vk-sql-db-caresync"
+		},
+		"ls_azuresqldatabase_properties_typeProperties_userName": {
+			"value": "vk-admin"
+		},
+		"ls_neon_postgresql_properties_typeProperties_server": {
+			"value": "ep-holy-cloud-b7if84zi-pooler.c-13.us-east-1.aws.neon.tech"
+		},
+		"ls_neon_postgresql_properties_typeProperties_database": {
+			"value": "neondb"
+		},
+		"ls_neon_postgresql_properties_typeProperties_username": {
+			"value": "neondb_owner"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
