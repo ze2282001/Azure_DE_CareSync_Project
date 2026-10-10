@@ -315,6 +315,56 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Checking Load Type and Update Watermark",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "2_Bronze_To_Silver",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@not(equals(activity('Read Table Details').output.firstRow.load_type, 'FULL'))",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Update Watermark",
+							"type": "Script",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "ls_azuresqldatabase",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "UPDATE ctrl.watermark\nSET watermark_value=SYSUTCDATETIME()\nWHERE table_id = @{pipeline().parameters.table_id}",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						}
+					]
+				}
 			}
 		],
 		"parameters": {
