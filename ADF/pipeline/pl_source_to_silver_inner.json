@@ -308,7 +308,7 @@
 							"typeProperties": {
 								"variableName": "watermark_value",
 								"value": {
-									"value": "@activity('Read Table Details').output.firstRow.watermark_value",
+									"value": "@activity('Read Watermark Value').output.firstRow.watermark_value",
 									"type": "Expression"
 								}
 							}
