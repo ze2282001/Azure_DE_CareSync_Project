@@ -53,7 +53,7 @@
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
-						"activity": "Switch1",
+						"activity": "Check Source System",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -80,6 +80,10 @@
 						},
 						"source_table_name": {
 							"value": "@activity('Read Table Details').output.firstRow.bronze_table_name",
+							"type": "Expression"
+						},
+						"source_file_format": {
+							"value": "@coalesce(activity('Read Table Details').output.firstRow.source_file_format, '')",
 							"type": "Expression"
 						}
 					}
@@ -300,7 +304,7 @@
 				}
 			},
 			{
-				"name": "Switch1",
+				"name": "Check Source System",
 				"type": "Switch",
 				"dependsOn": [
 					{
@@ -318,7 +322,7 @@
 					},
 					"cases": [
 						{
-							"value": "postgres",
+							"value": "neon_postgres",
 							"activities": [
 								{
 									"name": "Source To Landing Ingestion",
@@ -376,6 +380,74 @@
 													"value": "@concat(\n    activity('Read Table Details').output.firstRow.source_system,\n'/',\nactivity('Read Table Details').output.firstRow.source_table_name,\n'/',\nvariables('start_time')\n)",
 													"type": "Expression"
 												}
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"value": "adls_csv",
+							"activities": [
+								{
+									"name": "Ingest CSV from Source to Landing",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "BinarySource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": false,
+												"modifiedDatetimeStart": {
+													"value": "@variables('watermark_value')",
+													"type": "Expression"
+												},
+												"deleteFilesAfterCompletion": false
+											},
+											"formatSettings": {
+												"type": "BinaryReadSettings"
+											}
+										},
+										"sink": {
+											"type": "BinarySink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "ds_binary_csv",
+											"type": "DatasetReference",
+											"parameters": {
+												"folder": {
+													"value": "@activity('Read Table Details').output.firstRow.source_path",
+													"type": "Expression"
+												},
+												"container": "source"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "ds_binary_csv",
+											"type": "DatasetReference",
+											"parameters": {
+												"folder": {
+													"value": "@concat(\n    activity('Read Table Details').output.firstRow.source_system,\n'/',\nactivity('Read Table Details').output.firstRow.source_table_name,\n'/',\nvariables('start_time')\n)",
+													"type": "Expression"
+												},
+												"container": "landing"
 											}
 										}
 									]
