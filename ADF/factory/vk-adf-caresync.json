@@ -1,0 +1,12 @@
+{
+	"name": "vk-adf-caresync",
+	"properties": {
+		"globalParameters": {
+			"email_receipent": {
+				"type": "string",
+				"value": "ze2282001@gmail.com"
+			}
+		}
+	},
+	"location": "centralindia"
+}
