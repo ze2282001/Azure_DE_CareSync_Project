@@ -104,25 +104,6 @@
 							"isSequential": false,
 							"activities": [
 								{
-									"name": "Set variable1",
-									"type": "SetVariable",
-									"state": "Inactive",
-									"onInactiveMarkAs": "Succeeded",
-									"dependsOn": [],
-									"policy": {
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "table_id",
-										"value": {
-											"value": "@item().table_id",
-											"type": "Expression"
-										}
-									}
-								},
-								{
 									"name": "Insert In Progress Status",
 									"type": "Script",
 									"dependsOn": [],
@@ -251,6 +232,23 @@
 											}
 										],
 										"scriptBlockExecutionTimeout": "02:00:00"
+									}
+								},
+								{
+									"name": "Update Pipeline as Failed",
+									"type": "Fail",
+									"dependsOn": [
+										{
+											"activity": "Silver To Gold",
+											"dependencyConditions": [
+												"Failed"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"message": "The Gold Notebook Failed",
+										"errorCode": "500"
 									}
 								}
 							]
