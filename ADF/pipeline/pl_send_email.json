@@ -30,12 +30,45 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "Prepare Email Body Header",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "body_header",
+					"value": "Ingestion and Transformation process for Caresync Project has been completed and below is the status:"
+				}
+			},
+			{
+				"name": "Prepare Email Body Footer",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "body_header",
+					"value": "For any support, please reach out to ze2282001@gmail.com."
+				}
 			}
 		],
 		"parameters": {
 			"adf_run_id": {
 				"type": "string",
 				"defaultValue": "e2456fa8-7e6c-4ef3-9a8d-63a548832213"
+			}
+		},
+		"variables": {
+			"body_header": {
+				"type": "String"
 			}
 		},
 		"annotations": []
